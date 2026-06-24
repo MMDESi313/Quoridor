@@ -56,7 +56,7 @@ export function wallOverlap(a: Wall, b: Wall): boolean {
   }
 }
 
-export function isWalidWallPlacement(
+export function isValidWallPlacement(
   existingWalls: Wall[],
   candidate: Wall,
 ): boolean {

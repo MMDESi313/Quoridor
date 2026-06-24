@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isWallBetween, wallOverlap, isWalidWallPlacement } from "./walls";
+import { isWallBetween, wallOverlap, isValidWallPlacement } from "./walls";
 import type { Wall } from "./types";
 
 describe("isWallBetween", () => {
@@ -109,7 +109,7 @@ describe("wallOverlap", () => {
   });
 });
 
-describe("isWalidWallPlacement", () => {
+describe("isValidWallPlacement", () => {
   describe("Horizontal wall - valid range.", () => {
     it("A normal wall in the middle of the board should be valid", () => {
       const candidate: Wall = {
@@ -118,7 +118,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("row=1 (highest valid boundary) should be valid.", () => {
       const candidate: Wall = {
@@ -127,7 +127,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("row=8 (lowest valid boundary) should be valid.", () => {
       const candidate: Wall = {
@@ -136,7 +136,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("row=0 (top edge of the board) should be invalid.", () => {
       const candidate: Wall = {
@@ -145,7 +145,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
     it("row=9 (out of bounds, since max valid boundary is 8) should be invalid.", () => {
       const candidate: Wall = {
@@ -154,7 +154,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
     it("col=0 should be valid.", () => {
       const candidate: Wall = {
@@ -163,7 +163,7 @@ describe("isWalidWallPlacement", () => {
         col: 0,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("col=7 (wall length reaches exactly the edge of the board) should be valid.", () => {
       const candidate: Wall = {
@@ -172,7 +172,7 @@ describe("isWalidWallPlacement", () => {
         col: 7,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("col=8 (wall length goes outside the board) should be invalid.", () => {
       const candidate: Wall = {
@@ -181,7 +181,7 @@ describe("isWalidWallPlacement", () => {
         col: 8,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
     it("Negative col should be invalid.", () => {
       const candidate: Wall = {
@@ -190,7 +190,7 @@ describe("isWalidWallPlacement", () => {
         col: -1,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
   });
 
@@ -202,7 +202,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("col=1 should be valid.", () => {
       const candidate: Wall = {
@@ -211,7 +211,7 @@ describe("isWalidWallPlacement", () => {
         col: 1,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("col=8 should be valid.", () => {
       const candidate: Wall = {
@@ -220,7 +220,7 @@ describe("isWalidWallPlacement", () => {
         col: 8,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("col=0 (left edge of the board) should be invalid.", () => {
       const candidate: Wall = {
@@ -229,7 +229,7 @@ describe("isWalidWallPlacement", () => {
         col: 0,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
     it("col=9 (out of bounds, since max valid boundary is 8) should be invalid.", () => {
       const candidate: Wall = {
@@ -238,7 +238,7 @@ describe("isWalidWallPlacement", () => {
         col: 9,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
     it("row=0 should be valid.", () => {
       const candidate: Wall = {
@@ -247,7 +247,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("row=7 (wall length reaches exactly the edge of the board) should be valid.", () => {
       const candidate: Wall = {
@@ -256,7 +256,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(true);
+      expect(isValidWallPlacement([], candidate)).toBe(true);
     });
     it("row=8 (wall length goes outside the board) should be invalid.", () => {
       const candidate: Wall = {
@@ -265,7 +265,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
     it("Negative row should be invalid.", () => {
       const candidate: Wall = {
@@ -274,7 +274,7 @@ describe("isWalidWallPlacement", () => {
         col: 1,
         owner: "p1",
       };
-      expect(isWalidWallPlacement([], candidate)).toBe(false);
+      expect(isValidWallPlacement([], candidate)).toBe(false);
     });
   });
 
@@ -289,7 +289,7 @@ describe("isWalidWallPlacement", () => {
         col: 4,
         owner: "p2",
       };
-      expect(isWalidWallPlacement(existing, candidate)).toBe(false);
+      expect(isValidWallPlacement(existing, candidate)).toBe(false);
     });
     it("A wall with partial overlap with an existing wall should be rejected.", () => {
       const existing: Wall[] = [
@@ -301,7 +301,7 @@ describe("isWalidWallPlacement", () => {
         col: 5,
         owner: "p2",
       };
-      expect(isWalidWallPlacement(existing, candidate)).toBe(false);
+      expect(isValidWallPlacement(existing, candidate)).toBe(false);
     });
     it("A wall placed far enough from an existing wall should be accepted.", () => {
       const existing: Wall[] = [
@@ -313,7 +313,7 @@ describe("isWalidWallPlacement", () => {
         col: 6,
         owner: "p2",
       };
-      expect(isWalidWallPlacement(existing, candidate)).toBe(true);
+      expect(isValidWallPlacement(existing, candidate)).toBe(true);
     });
     it("A vertical wall crossing through the midpoint of an existing horizontal wall should be rejected.", () => {
       const existing: Wall[] = [
@@ -325,7 +325,7 @@ describe("isWalidWallPlacement", () => {
         col: 5,
         owner: "p2",
       };
-      expect(isWalidWallPlacement(existing, candidate)).toBe(false);
+      expect(isValidWallPlacement(existing, candidate)).toBe(false);
     });
   });
 });
