@@ -6,7 +6,7 @@ export function isWallBetween(
   to: Position,
 ): boolean {
   if (from.col === to.col) {
-    const row = Math.min(from.row, to.row);
+    const row = Math.max(from.row, to.row);
     const horizontalWalls = walls.filter(
       (wall) => wall.orientation === "horizontal",
     );
@@ -16,7 +16,7 @@ export function isWallBetween(
         wall.row === row,
     );
   } else if (from.row === to.row) {
-    const col = Math.min(from.col, to.col);
+    const col = Math.max(from.col, to.col);
     const verticalWalls = walls.filter(
       (wall) => wall.orientation === "vertical",
     );
