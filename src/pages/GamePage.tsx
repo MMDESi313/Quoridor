@@ -1,7 +1,10 @@
+import PlayerPanel from "../components/game/PlayerPanel";
+
 function GamePage() {
   return (
-    <main>
-      <h1 className="text-xl font-black">بازی</h1>
+    <main className="h-screen flex justify-between items-center">
+      <PlayerPanel player="p1" />
+      <PlayerPanel player="p2" />
     </main>
   );
 }

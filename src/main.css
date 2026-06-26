@@ -9,3 +9,20 @@
 body {
   font-family: "Vazirmatn";
 }
+
+.blue-player-panel {
+  background: linear-gradient(
+    to top left,
+    rgba(0, 0, 255, 0.6) 0%,
+    rgba(0, 0, 255, 0.8) 50%,
+    rgba(0, 0, 255, 1) 100%
+  );
+}
+.red-player-panel {
+  background: linear-gradient(
+    to top right,
+    rgba(255, 0, 0, 0.6) 0%,
+    rgba(255, 0, 0, 0.8) 50%,
+    rgba(255, 0, 0, 1) 100%
+  );
+}
