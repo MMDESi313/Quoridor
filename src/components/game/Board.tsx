@@ -1,14 +1,16 @@
 import { useMemo, useState } from "react";
 import { useGameStore } from "../../stores/gameStore";
 import type { Wall } from "../../game/types";
+import WallSlot from "./WallSlot";
+import Cell from "./Cell";
 
-type WallSegmentClass =
+export type WallSegmentClass =
   | "rounded-l-full"
   | "rounded-r-full"
   | "rounded-t-full"
   | "rounded-b-full"
-  | "my-1"
-  | "mx-1";
+  | "h-1/2 w-full"
+  | "h-full w-1/2";
 
 const COLS = Array.from({ length: 17 }, (_, i) =>
   i % 2 === 0 ? "48px" : "16px",
@@ -23,44 +25,67 @@ function Board() {
   const [hoveredElement, setHoveredElement] = useState<Wall | null>(null);
 
   const elementsToStyle: {
-    row: number;
-    col: number;
+    wall: Wall;
     class: WallSegmentClass;
   }[] = useMemo(() => {
     if (!hoveredElement) return [];
     if (hoveredElement.orientation === "horizontal") {
       return [
         {
-          row: hoveredElement.row,
-          col: hoveredElement.col,
+          wall: {
+            orientation: hoveredElement.orientation,
+            col: hoveredElement.col,
+            row: hoveredElement.row,
+            owner: hoveredElement.owner,
+          },
           class: "rounded-l-full",
         },
         {
-          row: hoveredElement.row,
-          col: hoveredElement.col + 1,
-          class: "my-1",
+          wall: {
+            orientation: hoveredElement.orientation,
+            col: hoveredElement.col + 1,
+            row: hoveredElement.row,
+            owner: hoveredElement.owner,
+          },
+          class: "h-1/2 w-full",
         },
         {
-          row: hoveredElement.row,
-          col: hoveredElement.col + 2,
+          wall: {
+            orientation: hoveredElement.orientation,
+            col: hoveredElement.col + 2,
+            row: hoveredElement.row,
+            owner: hoveredElement.owner,
+          },
           class: "rounded-r-full",
         },
       ];
     } else {
       return [
         {
-          row: hoveredElement.row,
-          col: hoveredElement.col,
+          wall: {
+            orientation: hoveredElement.orientation,
+            col: hoveredElement.col,
+            row: hoveredElement.row,
+            owner: hoveredElement.owner,
+          },
           class: "rounded-t-full",
         },
         {
-          row: hoveredElement.row + 1,
-          col: hoveredElement.col,
-          class: "mx-1",
+          wall: {
+            orientation: hoveredElement.orientation,
+            col: hoveredElement.col,
+            row: hoveredElement.row + 1,
+            owner: hoveredElement.owner,
+          },
+          class: "h-full w-1/2",
         },
         {
-          row: hoveredElement.row + 2,
-          col: hoveredElement.col,
+          wall: {
+            orientation: hoveredElement.orientation,
+            col: hoveredElement.col,
+            row: hoveredElement.row + 2,
+            owner: hoveredElement.owner,
+          },
           class: "rounded-b-full",
         },
       ];
@@ -111,23 +136,41 @@ function Board() {
         const isIntersection = rowIndex % 2 === 1 && colIndex % 2 === 1;
 
         const preview = elementsToStyle.find(
-          (element) => element.col === colIndex && element.row === rowIndex,
+          (element) =>
+            element.wall.col === colIndex && element.wall.row === rowIndex,
         );
+
+        const wallRow = Math.ceil(rowIndex / 2);
+        const wallCol = Math.ceil(colIndex / 2);
+
+        const cellRow = isCell && rowIndex / 2;
+        const cellCol = isCell && colIndex / 2;
 
         return (
           <div
             key={i}
-            className={`
-              ${isCell ? "bg-[#DDDDDD] cell-shadow rounded-xl" : ""}
-              ${isHWall ? "my-1" : ""}  
-              ${isVWall ? "mx-1" : ""}
-              ${preview ? `${gameState.currentTurn === "p1" ? "bg-[#0000dc40]" : "bg-[#DC000040]"} ${preview.class}` : ""}
-            `}
+            className={`flex items-center justify-center`}
             onMouseEnter={() =>
               handleMouseEnter(rowIndex, colIndex, isHWall, isVWall)
             }
           >
-            {isCell ? "" : isHWall ? "" : isVWall ? "" : ""}
+            {isHWall || isVWall ? (
+              <WallSlot
+                wall={{
+                  col: wallCol,
+                  row: wallRow,
+                  orientation: isHWall ? "horizontal" : "vertical",
+                  owner: gameState.currentTurn,
+                }}
+                preview={preview}
+              />
+            ) : isIntersection ? (
+              <div
+                className={`${preview ? preview.class : ""} ${preview ? (gameState.currentTurn === "p1" ? "bg-[#0000dc40]" : gameState.currentTurn === "p2" ? "bg-[#dc000040]" : "") : ""}`}
+              ></div>
+            ) : (
+              <Cell />
+            )}
           </div>
         );
       })}
