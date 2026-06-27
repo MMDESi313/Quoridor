@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import {
   createInitialState,
-  tryMovePawn,
+  tryMovePiece,
   tryPlaceWall,
 } from "../game/gameEngine";
 import type { GameState, Position, Wall } from "../game/types";
@@ -10,7 +10,7 @@ import { getLegalMoves } from "../game/moves";
 interface GameStore {
   gameState: GameState;
   legalMoves: Position[];
-  movePawn: (to: Position) => void;
+  movePtryMovePiece: (to: Position) => void;
   placeWall: (wall: Wall) => void;
   reset: () => void;
 }
@@ -21,9 +21,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
   gameState: initialState,
   legalMoves: getLegalMoves(initialState, "p1"),
 
-  movePawn: (to) => {
+  movePtryMovePiece: (to) => {
     const { gameState } = get();
-    const newState = tryMovePawn(gameState, gameState.currentTurn, to);
+    const newState = tryMovePiece(gameState, gameState.currentTurn, to);
 
     if (newState === null) return;
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { createInitialState, tryMovePawn, tryPlaceWall } from "./gameEngine";
+import { createInitialState, tryMovePiece, tryPlaceWall } from "./gameEngine";
 import type { Wall } from "./types";
 
 describe("createInitialState", () => {
@@ -46,24 +46,24 @@ describe("createInitialState", () => {
   });
 });
 
-describe("tryMovePawn", () => {
+describe("tryMovePiece", () => {
   describe("Valid moves.", () => {
     it("p1 should be able to move to an adjacent cell on their turn.", () => {
       const state = createInitialState();
-      const newState = tryMovePawn(state, "p1", { row: 1, col: 4 });
+      const newState = tryMovePiece(state, "p1", { row: 1, col: 4 });
       expect(newState).not.toBeNull();
       expect(newState?.players.p1.position).toEqual({ row: 1, col: 4 });
     });
 
     it("Turn should switch to p2 after p1 moves.", () => {
       const state = createInitialState();
-      const newState = tryMovePawn(state, "p1", { row: 1, col: 4 });
+      const newState = tryMovePiece(state, "p1", { row: 1, col: 4 });
       expect(newState?.currentTurn).toBe("p2");
     });
 
     it("Move should be added to moveHistory.", () => {
       const state = createInitialState();
-      const newState = tryMovePawn(state, "p1", { row: 1, col: 4 });
+      const newState = tryMovePiece(state, "p1", { row: 1, col: 4 });
       expect(newState?.moveHistory).toHaveLength(1);
       expect(newState?.moveHistory[0]).toEqual({
         type: "move",
@@ -78,13 +78,13 @@ describe("tryMovePawn", () => {
       const nearGoal = structuredClone(state);
       nearGoal.players.p1.position = { row: 7, col: 4 };
       nearGoal.players.p2.position = { row: 0, col: 0 };
-      const newState = tryMovePawn(nearGoal, "p1", { row: 8, col: 4 });
+      const newState = tryMovePiece(nearGoal, "p1", { row: 8, col: 4 });
       expect(newState?.winner).toBe("p1");
     });
 
     it("Original state should not be mutated after a move.", () => {
       const state = createInitialState();
-      tryMovePawn(state, "p1", { row: 1, col: 4 });
+      tryMovePiece(state, "p1", { row: 1, col: 4 });
       expect(state.players.p1.position).toEqual({ row: 0, col: 4 });
       expect(state.currentTurn).toBe("p1");
     });
@@ -93,17 +93,17 @@ describe("tryMovePawn", () => {
   describe("Invalid moves.", () => {
     it("Should return null if it is not the player's turn.", () => {
       const state = createInitialState();
-      expect(tryMovePawn(state, "p2", { row: 7, col: 4 })).toBeNull();
+      expect(tryMovePiece(state, "p2", { row: 7, col: 4 })).toBeNull();
     });
 
     it("Should return null if the game is already won.", () => {
       const state = { ...createInitialState(), winner: "p1" as const };
-      expect(tryMovePawn(state, "p1", { row: 1, col: 4 })).toBeNull();
+      expect(tryMovePiece(state, "p1", { row: 1, col: 4 })).toBeNull();
     });
 
     it("Should return null for an illegal destination (not in legalMoves).", () => {
       const state = createInitialState();
-      expect(tryMovePawn(state, "p1", { row: 3, col: 4 })).toBeNull();
+      expect(tryMovePiece(state, "p1", { row: 3, col: 4 })).toBeNull();
     });
 
     it("Should return null if a wall blocks the move.", () => {
@@ -113,7 +113,7 @@ describe("tryMovePawn", () => {
         { orientation: "horizontal", row: 1, col: 4, owner: "p2" },
       ];
       const blocked = { ...state, walls };
-      expect(tryMovePawn(blocked, "p1", { row: 1, col: 4 })).toBeNull();
+      expect(tryMovePiece(blocked, "p1", { row: 1, col: 4 })).toBeNull();
     });
   });
 });

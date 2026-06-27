@@ -16,7 +16,7 @@ export function createInitialState(): GameState {
   };
 }
 
-export function tryMovePawn(
+export function tryMovePiece(
   state: GameState,
   player: Player,
   to: Position,
