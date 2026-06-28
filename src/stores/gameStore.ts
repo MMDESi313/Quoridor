@@ -10,7 +10,7 @@ import { getLegalMoves } from "../game/moves";
 interface GameStore {
   gameState: GameState;
   legalMoves: Position[];
-  movePtryMovePiece: (to: Position) => void;
+  movePiece: (to: Position) => void;
   placeWall: (wall: Wall) => void;
   reset: () => void;
 }
@@ -21,7 +21,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   gameState: initialState,
   legalMoves: getLegalMoves(initialState, "p1"),
 
-  movePtryMovePiece: (to) => {
+  movePiece: (to) => {
     const { gameState } = get();
     const newState = tryMovePiece(gameState, gameState.currentTurn, to);
 

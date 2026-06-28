@@ -3,6 +3,7 @@ import { useGameStore } from "../../stores/gameStore";
 import type { Wall } from "../../game/types";
 import WallSlot from "./WallSlot";
 import Cell from "./Cell";
+import { getLegalMoves } from "../../game/moves";
 
 export type WallSegmentClass =
   | "rounded-l-full"
@@ -23,6 +24,9 @@ function Board() {
   const { gameState } = useGameStore();
 
   const [hoveredElement, setHoveredElement] = useState<Wall | null>(null);
+  const legalMoves = useMemo(() => {
+    return getLegalMoves(gameState, gameState.currentTurn);
+  }, [gameState]);
 
   const elementsToStyle: {
     wall: Wall;
@@ -135,7 +139,7 @@ function Board() {
         const isVWall = rowIndex % 2 === 0 && colIndex % 2 === 1;
         const isIntersection = rowIndex % 2 === 1 && colIndex % 2 === 1;
 
-        const preview = elementsToStyle.find(
+        const wallPreview = elementsToStyle.find(
           (element) =>
             element.wall.col === colIndex && element.wall.row === rowIndex,
         );
@@ -143,8 +147,25 @@ function Board() {
         const wallRow = Math.ceil(rowIndex / 2);
         const wallCol = Math.ceil(colIndex / 2);
 
-        const cellRow = isCell && rowIndex / 2;
-        const cellCol = isCell && colIndex / 2;
+        const cellPosition = { row: rowIndex / 2, col: colIndex / 2 };
+        const cellHasPlayer =
+          gameState.players.p1.position.col === cellPosition.col &&
+          gameState.players.p1.position.row === cellPosition.row
+            ? "p1"
+            : gameState.players.p2.position.col === cellPosition.col &&
+                gameState.players.p2.position.row === cellPosition.row
+              ? "p2"
+              : null;
+        const isCurrentMoveLegal = legalMoves.find(
+          (position) =>
+            position.row === cellPosition.row &&
+            position.col === cellPosition.col,
+        );
+        const cellHighlighted = isCurrentMoveLegal
+          ? gameState.currentTurn === "p1"
+            ? { player: "p1", position: isCurrentMoveLegal }
+            : { player: "p2", position: isCurrentMoveLegal }
+          : null;
 
         return (
           <div
@@ -162,14 +183,20 @@ function Board() {
                   orientation: isHWall ? "horizontal" : "vertical",
                   owner: gameState.currentTurn,
                 }}
-                preview={preview}
+                preview={wallPreview}
               />
             ) : isIntersection ? (
               <div
-                className={`${preview ? preview.class : ""} ${preview ? (gameState.currentTurn === "p1" ? "bg-[#0000dc40]" : gameState.currentTurn === "p2" ? "bg-[#dc000040]" : "") : ""}`}
+                className={`${wallPreview ? wallPreview.class : ""} ${wallPreview ? (gameState.currentTurn === "p1" ? "bg-[#0000dc40]" : gameState.currentTurn === "p2" ? "bg-[#dc000040]" : "") : ""}`}
               ></div>
+            ) : isCell ? (
+              <Cell
+                hasPlayer={cellHasPlayer}
+                highlighted={cellHighlighted}
+                position={cellPosition}
+              />
             ) : (
-              <Cell />
+              ""
             )}
           </div>
         );
