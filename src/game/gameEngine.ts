@@ -11,10 +11,7 @@ export function createInitialState(): GameState {
       p1: { goalRow: 8, position: { row: 0, col: 4 }, wallsLeft: 10 },
       p2: { goalRow: 0, position: { row: 8, col: 4 }, wallsLeft: 10 },
     },
-    walls: [
-      { col: 5, orientation: "horizontal", owner: "p1", row: 5 },
-      { col: 1, orientation: "vertical", owner: "p2", row: 3 },
-    ],
+    walls: [],
     winner: null,
   };
 }
