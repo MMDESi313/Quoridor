@@ -1,3 +1,5 @@
+// AI-generated
+
 import { describe, it, expect } from "vitest";
 import { isWallBetween, wallOverlap, isValidWallPlacement } from "./walls";
 import type { Wall } from "./types";

@@ -1,3 +1,5 @@
+// AI-generated
+
 import { describe, it, expect } from "vitest";
 import { hasPathToGoal } from "./pathFinding";
 import type { GameState, Wall } from "./types";

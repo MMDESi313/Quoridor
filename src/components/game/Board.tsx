@@ -4,6 +4,7 @@ import WallSlot from "./WallSlot";
 import Cell from "./Cell";
 import { getLegalMoves } from "../../game/moves";
 import type { Wall } from "../../game/types";
+import { isValidWallPlacement } from "../../game/walls";
 
 const COLS = Array.from({ length: 17 }, (_, i) =>
   i % 2 === 0 ? "48px" : "16px",
@@ -183,7 +184,9 @@ function Board() {
               <div
                 className="w-full h-full flex items-center justify-center"
                 onMouseEnter={() => {
-                  setIsHovered(wall);
+                  if (isValidWallPlacement(gameState.walls, wall)) {
+                    setIsHovered(wall);
+                  }
                 }}
                 onMouseLeave={() => {
                   setIsHovered(null);

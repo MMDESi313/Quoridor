@@ -1,3 +1,5 @@
+// AI-generated
+
 import { describe, it, expect } from "vitest";
 import { getLegalMoves } from "./moves";
 import type { GameState, Wall, Position } from "./types";

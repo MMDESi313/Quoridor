@@ -1,3 +1,5 @@
+// AI-generated
+
 import { describe, it, expect } from "vitest";
 import { createInitialState, tryMovePiece, tryPlaceWall } from "./gameEngine";
 import type { Wall } from "./types";
