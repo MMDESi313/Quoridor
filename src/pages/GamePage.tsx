@@ -1,12 +1,11 @@
 import Board from "../components/game/Board";
-import PlayerPanel from "../components/game/PlayerPanel";
+import PlayersPanel from "../components/game/PlayersPanel";
 
 function GamePage() {
   return (
-    <main className="h-dvh flex justify-between items-center">
-      <PlayerPanel player="p1" />
+    <main className="h-dvh flex flex-col justify-center items-center">
+      <PlayersPanel />
       <Board />
-      <PlayerPanel player="p2" />
     </main>
   );
 }
