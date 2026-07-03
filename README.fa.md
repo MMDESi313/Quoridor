@@ -135,9 +135,9 @@ src/
 ## 🚀 اجرای پروژه
 
 ```bash
-git clone https://github.com/MMDESi313/quoridor-game.git
+git clone https://github.com/MMDESi313/Quoridor.git
 
-cd quoridor-game
+cd Quoridor
 
 npm install
 
