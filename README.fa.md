@@ -10,12 +10,11 @@
 
 <br>
 
-<!-- بعداً می‌توانید این تصویر را با GIF گیم‌پلی جایگزین کنید -->
 <img src="/assets/images/Screenshot.png" alt="تصویر بازی Quoridor" width="900"/>
 
-<!-- Future:
-<img src="./assets/gameplay.gif" alt="گیم‌پلی Quoridor" width="900"/>
--->
+<p align="center">
+  <strong><a href="https://quoridor-kappa.vercel.app/">🔗 دموی زنده</a></strong>
+</p>
 
 <br>
 

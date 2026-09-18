@@ -10,12 +10,11 @@ A complete game engine that enforces Quoridor's core rules, including move valid
 
 <br>
 
-<!-- Replace this screenshot with a gameplay GIF once the AI opponent is implemented -->
 <img src="/assets/images/Screenshot.png" alt="Quoridor Game Screenshot" width="900"/>
 
-<!-- Future:
-<img src="./assets/gameplay.gif" alt="Quoridor Gameplay" width="900"/>
--->
+<p align="center">
+  <strong><a href="https://quoridor-kappa.vercel.app/">🔗 Live Demo</a></strong>
+</p>
 
 <br>
 
